@@ -5,8 +5,8 @@ COPY gradle gradle
 COPY build.gradle settings.gradle gradlew ./
 COPY src src
 
-
-RUN chmod 755 ./gradlew && ./gradlew build -x test
+RUN chmod 755 gradlew
+RUN ./gradlew build -x test
 
 #RUN mkdir -p build/libs/dependency && (cd build/libs/dependency; jar -xf ../*.jar)
 
@@ -20,5 +20,7 @@ FROM openjdk:8-jdk-alpine
 EXPOSE 8080
 
 COPY --from=build /workspace/app/build/libs/*SNAPSHOT.jar /app/app.jar
+
+USER 1001
 
 ENTRYPOINT ["java","-jar","/app/app.jar"]
